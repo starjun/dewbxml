@@ -20,6 +20,10 @@ local file = io.open(filename,"rb")
 local data = file:read("*a")
 local goResult = example.parse(lua2go.ToGo(data))
 
+-- Important: Go allocated the return value, so we'll need to deallocate it!
+-- tell the Lua garbage collector to handle this for us
+lua2go.AddToGC(goResult)
+
 local Result = lua2go.ToLua(goResult)
 
 print('Result: ' .. Result)
